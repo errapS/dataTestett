@@ -26,6 +26,42 @@ to activate venv run venv\Scripts\activate
 pip install dotenv
 pip install peewee
 pip install psycopg2
+pip install schedule
+
+
+SQL trigger function
+
+CREATE OR REPLACE FUNCTION public.archiveonupdate()
+RETURNS TRIGGER AS $$
+DECLARE
+    archive_table_name TEXT;
+    column_names TEXT[];
+    column_list TEXT;
+    placeholders TEXT;
+BEGIN
+    archive_table_name := 'archivedPeople_' || to_char(NOW(), 'YYYY_MM_DD_HH24_MI_SS');
+    
+    EXECUTE 'CREATE TABLE IF NOT EXISTS ' || quote_ident(archive_table_name) || ' (LIKE people INCLUDING ALL)';
+    
+   	EXECUTE 'INSERT INTO' || quote_ident(archive_table_name) || 'SELECT * FROM people';
+   
+    EXECUTE 'DELETE FROM people';
+   
+   	EXECUTE 'INSERT INTO people SELECT * FROM' || quote_ident(archive_table_name);
+    
+	    
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
+create trigger archive_people_trigger before
+insert
+    on
+    public.people for each row
+    when (((new.name is null)
+        and (new.height is null)
+            and (new.mass is null))) execute function archiveonupdate()
 
 
 

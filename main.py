@@ -1,15 +1,17 @@
 from database import *
 from API_calls import *
+import schedule
+import datetime
 
-if __name__ =="__main__":
+def get_actors():
+    print('Requesting actors...')
 
-    print('Requesting peoples...')
-
-    people = PeopleAPI().get()['results']
+    actors = ActorsAPI().getAll()
 
     print('Request OK')
-    print('Creating records for peoples....') 
-    for person in people:
+    print('Creating records for actors...')
+
+    for person in actors:
         CreateRecord().create_person(
             name = person['name'],
             height = person['height'],
@@ -21,4 +23,31 @@ if __name__ =="__main__":
             gender = person['gender']
         )
 
+
     print('Done')
+    
+
+def get_actors_bulk():
+    print('Requesting actors...')
+
+    actors = ActorsAPI().get()['results']
+
+    print('Request OK')
+    print('Creating records for actors...')
+  
+    CreateRecord().create_many(actors)
+
+    print('Done')
+
+
+
+
+if __name__ =="__main__":
+
+    schedule.every().minute.do(get_actors_bulk)
+    # schedule.every().day.at("00:00").do(get_actors_bulk)   #daily update
+
+    while True:
+        schedule.run_pending()
+
+

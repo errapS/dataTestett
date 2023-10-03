@@ -13,17 +13,18 @@ class BaseModel(Model):
     class Meta:
         database = database
 
-class People(BaseModel):
+class Actors(BaseModel):
     person_id = AutoField()
     name = CharField(max_length=200)
     height = IntegerField()
-    mass = IntegerField()
-    hair_color = CharField(max_length=20)
-    skin_color = CharField(max_length=20)
-    eye_color = CharField(max_length=20)
-    birth_year = CharField(max_length=20)
-    gender = CharField(max_length=10)
+    mass = DecimalField()
+    hair_color = CharField(max_length=50)
+    skin_color = CharField(max_length=50)
+    eye_color = CharField(max_length=50)
+    birth_year = CharField(max_length=50)
+    gender = CharField(max_length=20)
     created_on = DateTimeField(constraints=[SQL("DEFAULT CURRENT_TIME")])
 
     class Meta:
         table_name = 'people'
+        

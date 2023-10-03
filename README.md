@@ -1,4 +1,4 @@
-# Project README: Data Fetching from API and Storing in PostgreSQL with Docker
+# Data Fetching from API and Storing in PostgreSQL with Docker
 
 This README provides detailed instructions for setting up a PostgreSQL database server using Docker, creating the necessary table, and configuring your Python environment to fetch data from an API and store it in the database. The project uses the `psycopg2`, `peewee`, and `schedule` libraries for Python and leverages Docker for containerized PostgreSQL.
 

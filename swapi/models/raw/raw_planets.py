@@ -4,10 +4,10 @@ import time
 
 def model(dbt, fal):
 
-    response = requests.get("https://swapi.dev/api/people/")
+    response = requests.get("https://swapi.dev/api/planets/")
     data = response.json()
     if not data['next']:
-        return pd.DataFrame(data['results']).to_sql
+        return pd.DataFrame(data['results'])
 
     results = data['results']
     while True:
@@ -18,4 +18,4 @@ def model(dbt, fal):
             break
         time.sleep(.5)
     
-    return pd.DataFrame(results).to_sql
+    return pd.DataFrame(results)

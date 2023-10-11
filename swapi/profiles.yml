@@ -11,4 +11,6 @@ swapi:
       schema: public
       threads: 1
       connect_timeout: 10
-    
+    dev-fal:
+      type: fal
+      db_profile: dev

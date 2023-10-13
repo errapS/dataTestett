@@ -3,7 +3,7 @@ swapi:
   outputs:
     dev:
       type: postgres
-      host: localhost
+      host: postgres_container
       user: user
       password: assword
       port: 5432

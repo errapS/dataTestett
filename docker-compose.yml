@@ -3,10 +3,38 @@ version: '3.8'
 services:
   postgres:
     image: postgres:latest
-    container_name: swapi
+    container_name: postgres_container
     ports:
       - "5432:5432"
     environment:
       POSTGRES_DB: swapipostgres
       POSTGRES_USER: user
       POSTGRES_PASSWORD: assword
+
+  python:
+    build:
+      context: .
+      dockerfile: Dockerfile.py 
+    container_name: python_container
+    volumes:
+      - .:/app
+    working_dir: /app/resources
+    command: python main.py
+    depends_on:
+      - postgres
+
+
+  dbt:
+    image: article1dataops/dbt:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.dbt
+    container_name: dbt_container
+    volumes:
+      - .:/usr/app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - python
+    expose:
+      - "5000" 

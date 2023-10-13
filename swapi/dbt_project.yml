@@ -33,9 +33,6 @@ clean-targets:         # directories to be removed by `dbt clean`
 models:
   swapi:
     # Config indicated by + and applies to all files under models/example/
-    raw:
-      +materialized: table  # better performance when querying 
-
     staging:
       +materialized: view    # faster, bad query
       

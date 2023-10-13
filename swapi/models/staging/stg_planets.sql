@@ -1,7 +1,7 @@
 with source as (
   select
     *
-  from {{ ref('raw_planets')}}
+  from {{ source('raw', 'raw_planets')}}
 ),
 
 final as (

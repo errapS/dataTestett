@@ -1,7 +1,7 @@
 with source as (
   select
     *
-  from {{ ref('raw_people')}}
+  from {{ source('raw', 'raw_people')}}
 ),
 
 final as (
